@@ -29,7 +29,7 @@ class ClassMethod extends UserFunction implements Renderable, ArrayAccess
         return $this->render();
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         if (is_null($offset)) {
             $this->block[] = $value;
@@ -38,21 +38,21 @@ class ClassMethod extends UserFunction implements Renderable, ArrayAccess
         }
     }
 
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->block[$offset]);
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->block[$offset];
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->block[$offset]);
     }
 
 
 }
-

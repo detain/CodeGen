@@ -5,6 +5,7 @@ use ArrayAccess;
 use ArrayIterator;
 use CodeGen\Exception\InvalidArgumentTypeException;
 use IteratorAggregate;
+use Traversable;
 
 
 /**
@@ -118,13 +119,13 @@ class Block implements IteratorAggregate, ArrayAccess, Renderable
     }
 
     // ============ interface ArrayAggregator implementation =============
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         return new ArrayIterator($this->lines);
     }
 
     // ============ interface ArrayAccess implementation =============
-    public function offsetSet($key, $value)
+    public function offsetSet($key, $value): void
     {
         if ($key) {
             $this->lines[$key] = $value;
@@ -133,24 +134,24 @@ class Block implements IteratorAggregate, ArrayAccess, Renderable
         }
     }
 
-    public function offsetExists($key)
+    public function offsetExists($key): bool
     {
         return isset($this->lines[$key]);
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetGet($key)
     {
         return $this->lines[$key];
     }
 
-    public function offsetUnset($key)
+    public function offsetUnset($key): void
     {
         unset($this->lines[$key]);
     }
 
 
 }
-
 
 
 

@@ -4,6 +4,7 @@ namespace CodeGen;
 use ArrayAccess;
 use ArrayIterator;
 use IteratorAggregate;
+use Traversable;
 
 /**
  * Argument list for function call
@@ -29,22 +30,23 @@ class ArgumentList implements Renderable, ArrayAccess, IteratorAggregate
     }
 
 
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->arguments[$offset]);
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->arguments[$offset];
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->arguments[$offset]);
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         if ($offset) {
             $this->arguments[$offset] = $value;
@@ -53,7 +55,7 @@ class ArgumentList implements Renderable, ArrayAccess, IteratorAggregate
         }
     }
 
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         return new ArrayIterator($this->arguments);
     }
@@ -67,4 +69,3 @@ class ArgumentList implements Renderable, ArrayAccess, IteratorAggregate
         return implode(', ', $strs);
     }
 }
-
